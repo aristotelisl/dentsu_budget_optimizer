@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CampaignBudgetOptimizer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60652b4a7e540b7ab8d901d339cd2e72c10ff31a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff1e6273cd7985c101c167a7d15695d102ce4587")]
 [assembly: System.Reflection.AssemblyProductAttribute("CampaignBudgetOptimizer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CampaignBudgetOptimizer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
