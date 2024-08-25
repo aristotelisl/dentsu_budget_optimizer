@@ -4,35 +4,35 @@ namespace CampaignBudgetOptimizer.Services
 {
     public class BudgetCalculator
     {
-        public double CalculateOptimalAdBudget(CampaignModel model, string adToOptimize)
+        public double CalculateOptimalNewAdBudget(CampaignModel model)
         {
-            double epsilon = 0.01;
-            double lowerBound = 0;
-            double upperBound = model.TotalAdSpend;
+            double epsilon = 0.01; // Tolerance for the binary search
+            double lowerBound = 0; // Lower bound of the binary search
+            double upperBound = model.TotalAdSpend; // Upper bound of the binary search
 
             while (upperBound - lowerBound > epsilon)
             {
                 double mid = (lowerBound + upperBound) / 2.0;
-                model.Ad1Budget = adToOptimize == "Ad1" ? mid : model.Ad1Budget;
-                model.Ad2Budget = adToOptimize == "Ad2" ? mid : model.Ad2Budget;
-                model.Ad3Budget = adToOptimize == "Ad3" ? mid : model.Ad3Budget;
 
-                double totalAdSpend = model.Ad1Budget + model.Ad2Budget + model.Ad3Budget;
+                // Calculate total ad spend including the new ad
+                double totalAdSpend = model.AdBudgets.Values.Sum() + mid;
+
+                // Calculate total cost including fees and fixed costs
                 double totalCost = totalAdSpend + (model.AgencyFeePercentage * totalAdSpend)
-                                   + (model.ToolFeePercentage * (model.Ad1Budget + model.Ad2Budget + model.Ad3Budget))
+                                   + (model.ToolFeePercentage * totalAdSpend)
                                    + model.AgencyHours;
 
                 if (totalCost > model.TotalAdSpend)
                 {
-                    upperBound = mid;
+                    upperBound = mid; // If total cost exceeds the budget, decrease the budget
                 }
                 else
                 {
-                    lowerBound = mid;
+                    lowerBound = mid; // Otherwise, increase the budget
                 }
             }
 
-            return (lowerBound + upperBound) / 2.0;
+            return (lowerBound + upperBound) / 2.0; // Return the optimized budget for the new ad
         }
     }
 }

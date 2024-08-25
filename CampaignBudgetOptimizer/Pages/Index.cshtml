@@ -1,39 +1,90 @@
 ﻿@page
 @model CampaignBudgetOptimizer.Pages.IndexModel
+@{
+    ViewData["Title"] = "Campaign Budget Optimizer";
+}
+
+<h2>Campaign Budget Optimizer</h2>
 
 <form method="post">
-    <label for="totalBudget">Total Budget:</label>
-    <input type="text" id="totalBudget" name="Campaign.TotalBudget" />
+    <div>
+        <label>Total Campaign Budget (Z):</label>
+        <input asp-for="Campaign.TotalAdSpend" />
+    </div>
+    <div>
+        <label>Agency Fee Percentage (Y1):</label>
+        <input asp-for="Campaign.AgencyFeePercentage" />
+    </div>
+    <div>
+        <label>Tool Fee Percentage (Y2):</label>
+        <input asp-for="Campaign.ToolFeePercentage" />
+    </div>
+    <div>
+        <label>Fixed Costs for Agency Hours:</label>
+        <input asp-for="Campaign.AgencyHours" />
+    </div>
 
-    <label for="ad1Budget">Ad 1 Budget:</label>
-    <input type="text" id="ad1Budget" name="Campaign.Ad1Budget" />
+    <hr />
 
-    <label for="ad2Budget">Ad 2 Budget:</label>
-    <input type="text" id="ad2Budget" name="Campaign.Ad2Budget" />
+    <!-- Input fields for adding new ads dynamically -->
+    <div>
+        <label>Add New Ad:</label>
+        <input type="text" id="newAdName" placeholder="Ad Name" />
+        <input type="number" id="newAdBudget" placeholder="Budget" />
+        <button type="button" onclick="addAd()">Add Ad</button>
+    </div>
 
-    <label for="ad2Budget">Ad 3 Budget:</label>
-    <input type="text" id="ad3Budget" name="Campaign.Ad3Budget" />
+    <hr />
 
-    <label for="agencyFee">Agency Fee Percentage:</label>
-    <input type="text" id="agencyFee" name="Campaign.AgencyFeePercentage" />
+    <!-- List ads dynamically from the Campaign model -->
+    @if (Model.Campaign.AdBudgets.Count > 0)
+    {
+        @foreach (var ad in Model.Campaign.AdBudgets)
+        {
+            <div>
+                <label>@ad.Key Budget:</label>
+                <input name="Campaign.AdBudgets[@ad.Key]" value="@ad.Value" />
+            </div>
+        }
+    }
 
-    <label for="toolFee">Tool Fee Percentage:</label>
-    <input type="text" id="toolFee" name="Campaign.ToolFeePercentage" />
-
-    <label for="fixedCosts">Fixed Costs:</label>
-    <input type="text" id="fixedCosts" name="Campaign.FixedCosts" />
-
-    <label for="adToOptimize">Ad to Optimize:</label>
-    <select id="adToOptimize" name="AdToOptimize">
-        <option value="Ad1">Ad 1</option>
-        <option value="Ad2">Ad 2</option>
-        <option value="Ad3">Ad 3</option>
-    </select>
-
-    <button type="submit">Calculate</button>
+    <button type="submit">Calculate Optimal Budget for New Ad</button>
 </form>
 
-@if (ViewData["OptimalBudget"] != null)
-{
-    <p>Optimal Budget for @Request.Form["AdToOptimize"]: @ViewData["OptimalBudget"]</p>
-}
+<!-- Display optimal budget after calculation -->
+<div>
+    @if (ViewData["OptimalBudget"] != null)
+    {
+        <h3>Optimal Budget for New Ad: @ViewData["OptimalBudget"]</h3>
+    }
+</div>
+
+<!-- JavaScript to dynamically add ads -->
+<script>
+    function addAd() {
+        var adName = document.getElementById('newAdName').value;
+        var adBudget = document.getElementById('newAdBudget').value;
+
+        if (adName && adBudget) {
+            // Create new input elements for the ad name and budget
+            var adDiv = document.createElement('div');
+            var adLabel = document.createElement('label');
+            var adInput = document.createElement('input');
+
+            adLabel.innerHTML = adName + " Budget:";
+            adInput.name = "Campaign.AdBudgets[" + adName + "]";
+            adInput.value = adBudget;
+            adInput.type = "number";
+
+            adDiv.appendChild(adLabel);
+            adDiv.appendChild(adInput);
+
+            // Add the new inputs to the form
+            document.forms[0].appendChild(adDiv);
+
+            // Clear input fields for the next ad
+            document.getElementById('newAdName').value = '';
+            document.getElementById('newAdBudget').value = '';
+        }
+    }
+</script>
