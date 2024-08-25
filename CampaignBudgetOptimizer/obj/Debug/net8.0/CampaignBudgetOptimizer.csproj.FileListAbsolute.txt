@@ -28,3 +28,4 @@ C:\Users\arist\Desktop\MyDocs\Projects\dentsu_budget_optimizer\CampaignBudgetOpt
 C:\Users\arist\Desktop\MyDocs\Projects\dentsu_budget_optimizer\CampaignBudgetOptimizer\obj\Debug\net8.0\CampaignBudgetOptimizer.pdb
 C:\Users\arist\Desktop\MyDocs\Projects\dentsu_budget_optimizer\CampaignBudgetOptimizer\obj\Debug\net8.0\CampaignBudgetOptimizer.genruntimeconfig.cache
 C:\Users\arist\Desktop\MyDocs\Projects\dentsu_budget_optimizer\CampaignBudgetOptimizer\obj\Debug\net8.0\ref\CampaignBudgetOptimizer.dll
+C:\Users\arist\Desktop\MyDocs\Projects\dentsu_budget_optimizer\CampaignBudgetOptimizer\obj\Debug\net8.0\CampaignBudgetOptimizer.sourcelink.json

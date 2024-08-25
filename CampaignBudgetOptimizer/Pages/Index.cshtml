@@ -1,10 +1,39 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@model CampaignBudgetOptimizer.Pages.IndexModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<form method="post">
+    <label for="totalBudget">Total Budget:</label>
+    <input type="text" id="totalBudget" name="Campaign.TotalBudget" />
+
+    <label for="ad1Budget">Ad 1 Budget:</label>
+    <input type="text" id="ad1Budget" name="Campaign.Ad1Budget" />
+
+    <label for="ad2Budget">Ad 2 Budget:</label>
+    <input type="text" id="ad2Budget" name="Campaign.Ad2Budget" />
+
+    <label for="ad2Budget">Ad 3 Budget:</label>
+    <input type="text" id="ad3Budget" name="Campaign.Ad3Budget" />
+
+    <label for="agencyFee">Agency Fee Percentage:</label>
+    <input type="text" id="agencyFee" name="Campaign.AgencyFeePercentage" />
+
+    <label for="toolFee">Tool Fee Percentage:</label>
+    <input type="text" id="toolFee" name="Campaign.ToolFeePercentage" />
+
+    <label for="fixedCosts">Fixed Costs:</label>
+    <input type="text" id="fixedCosts" name="Campaign.FixedCosts" />
+
+    <label for="adToOptimize">Ad to Optimize:</label>
+    <select id="adToOptimize" name="AdToOptimize">
+        <option value="Ad1">Ad 1</option>
+        <option value="Ad2">Ad 2</option>
+        <option value="Ad3">Ad 3</option>
+    </select>
+
+    <button type="submit">Calculate</button>
+</form>
+
+@if (ViewData["OptimalBudget"] != null)
+{
+    <p>Optimal Budget for @Request.Form["AdToOptimize"]: @ViewData["OptimalBudget"]</p>
+}
