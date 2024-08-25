@@ -9,19 +9,23 @@
 <form method="post">
     <div>
         <label>Total Campaign Budget (Z):</label>
-        <input asp-for="Campaign.TotalAdSpend" />
+        <input asp-for="Campaign.TotalAdSpend" type="number" min="0" step="any" required />
+        <span asp-validation-for="Campaign.TotalAdSpend" class="text-danger"></span>
     </div>
     <div>
         <label>Agency Fee Percentage (Y1):</label>
-        <input asp-for="Campaign.AgencyFeePercentage" />
+        <input asp-for="Campaign.AgencyFeePercentage" type="number" min="0" step="0.01" required />
+        <span asp-validation-for="Campaign.AgencyFeePercentage" class="text-danger"></span>
     </div>
     <div>
         <label>Tool Fee Percentage (Y2):</label>
-        <input asp-for="Campaign.ToolFeePercentage" />
+        <input asp-for="Campaign.ToolFeePercentage" type="number" min="0" step="0.01" required />
+        <span asp-validation-for="Campaign.ToolFeePercentage" class="text-danger"></span>
     </div>
     <div>
         <label>Fixed Costs for Agency Hours:</label>
-        <input asp-for="Campaign.AgencyHours" />
+        <input asp-for="Campaign.AgencyHours" type="number" min="0" step="any" required />
+        <span asp-validation-for="Campaign.AgencyHours" class="text-danger"></span>
     </div>
 
     <hr />
@@ -30,7 +34,7 @@
     <div>
         <label>Add New Ad:</label>
         <input type="text" id="newAdName" placeholder="Ad Name" />
-        <input type="number" id="newAdBudget" placeholder="Budget" />
+        <input type="number" id="newAdBudget" placeholder="Budget" min="0" step="any" />
         <button type="button" onclick="addAd()">Add Ad</button>
     </div>
 
@@ -43,7 +47,7 @@
         {
             <div>
                 <label>@ad.Key Budget:</label>
-                <input name="Campaign.AdBudgets[@ad.Key]" value="@ad.Value" />
+                <input name="Campaign.AdBudgets[@ad.Key]" value="@ad.Value" type="number" min="0" step="any" />
             </div>
         }
     }
@@ -65,7 +69,7 @@
         var adName = document.getElementById('newAdName').value;
         var adBudget = document.getElementById('newAdBudget').value;
 
-        if (adName && adBudget) {
+        if (adName && adBudget >= 0) { // Ensure adBudget is a positive number
             // Create new input elements for the ad name and budget
             var adDiv = document.createElement('div');
             var adLabel = document.createElement('label');
@@ -75,6 +79,8 @@
             adInput.name = "Campaign.AdBudgets[" + adName + "]";
             adInput.value = adBudget;
             adInput.type = "number";
+            adInput.min = "0";
+            adInput.step = "any";
 
             adDiv.appendChild(adLabel);
             adDiv.appendChild(adInput);
@@ -85,6 +91,8 @@
             // Clear input fields for the next ad
             document.getElementById('newAdName').value = '';
             document.getElementById('newAdBudget').value = '';
+        } else {
+            alert('Please enter a valid positive number for the ad budget.');
         }
     }
 </script>
