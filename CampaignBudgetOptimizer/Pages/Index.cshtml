@@ -85,8 +85,11 @@
             adDiv.appendChild(adLabel);
             adDiv.appendChild(adInput);
 
-            // Add the new inputs to the form
-            document.forms[0].appendChild(adDiv);
+            // Find the submit button to insert before it
+            var submitButton = document.querySelector('button[type="submit"]');
+
+            // Insert the new ad div before the submit button
+            document.forms[0].insertBefore(adDiv, submitButton);
 
             // Clear input fields for the next ad
             document.getElementById('newAdName').value = '';
