@@ -6,61 +6,73 @@
 
 <h2>Calculating optimal ad budget, made easy.</h2>
 
-<form method="post">
-    <div>
-        <label>Total Campaign Budget (Z):</label>
-        <input asp-for="Campaign.TotalAdSpend" type="number" min="0" step="any" required />
-        <span asp-validation-for="Campaign.TotalAdSpend" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Agency Fee Percentage (Y1):</label>
-        <input asp-for="Campaign.AgencyFeePercentage" type="number" min="0" step="0.01" required />
-        <span asp-validation-for="Campaign.AgencyFeePercentage" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Tool Fee Percentage (Y2):</label>
-        <input asp-for="Campaign.ToolFeePercentage" type="number" min="0" step="0.01" required />
-        <span asp-validation-for="Campaign.ToolFeePercentage" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Fixed Costs for Agency Hours:</label>
-        <input asp-for="Campaign.AgencyHours" type="number" min="0" step="any" required />
-        <span asp-validation-for="Campaign.AgencyHours" class="text-danger"></span>
-    </div>
+<!-- Main container for side-by-side forms -->
+<div class="container">
 
-    <hr />
-
-    <!-- Input fields for adding new ads dynamically -->
-    <div>
-        <label>Add New Ad:</label>
-        <input type="text" id="newAdName" placeholder="Ad Name" />
-        <input type="number" id="newAdBudget" placeholder="Budget" min="0" step="any" />
-        <button type="button" onclick="addAd()">Add Ad</button>
-    </div>
-
-    <hr />
-
-    <!-- List ads dynamically from the Campaign model -->
-    @if (Model.Campaign.AdBudgets.Count > 0)
-    {
-        @foreach (var ad in Model.Campaign.AdBudgets)
-        {
+    <!-- Combined Form: Inputs for budget calculation and managing ads -->
+    <form method="post" class="form">
+        <div class="form-left">
             <div>
-                <label>@ad.Key Budget:</label>
-                <input name="Campaign.AdBudgets[@ad.Key]" value="@ad.Value" type="number" min="0" step="any" />
+                <label>Total Campaign Budget (Z):</label>
+                <input asp-for="Campaign.TotalAdSpend" type="number" min="0" step="any" required />
+                <span asp-validation-for="Campaign.TotalAdSpend" class="text-danger"></span>
             </div>
-        }
-    }
+            <div>
+                <label>Agency Fee Percentage (Y1):</label>
+                <input asp-for="Campaign.AgencyFeePercentage" type="number" min="0" step="0.01" required />
+                <span asp-validation-for="Campaign.AgencyFeePercentage" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Tool Fee Percentage (Y2):</label>
+                <input asp-for="Campaign.ToolFeePercentage" type="number" min="0" step="0.01" required />
+                <span asp-validation-for="Campaign.ToolFeePercentage" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Fixed Costs for Agency Hours:</label>
+                <input asp-for="Campaign.AgencyHours" type="number" min="0" step="any" required />
+                <span asp-validation-for="Campaign.AgencyHours" class="text-danger"></span>
+            </div>
+            <!-- Submit button for the combined form -->
+            <button type="submit">Calculate Optimal Budget for New Ad</button>
+            <!-- Display optimal budget after calculation -->
+            <div>
+                @if (ViewData["OptimalBudget"] != null)
+                {
+                    <label>Optimal Budget for New Ad: @ViewData["OptimalBudget"]</label>
+                }
+            </div>
+        </div>
 
-    <button type="submit">Calculate Optimal Budget for New Ad</button>
-</form>
+        <!-- Right section for managing ads -->
+        <div class="form-right">
+            <div>
+                <label>Add New Ad:</label>
+                <input type="text" id="newAdName" placeholder="Ad Name" />
+                <input type="number" id="newAdBudget" placeholder="Budget" min="0" step="any" />
+                <button type="button" onclick="addAd()">Add Ad</button>
+            </div>
 
-<!-- Display optimal budget after calculation -->
-<div>
-    @if (ViewData["OptimalBudget"] != null)
-    {
-        <h3>Optimal Budget for New Ad: @ViewData["OptimalBudget"]</h3>
-    }
+            <hr />
+
+            <!-- Container for dynamically added ads -->
+            <div id="adsContainer">
+                <!-- List ads dynamically from the Campaign model -->
+                @if (Model.Campaign.AdBudgets.Count > 0)
+                {
+                    @foreach (var ad in Model.Campaign.AdBudgets)
+                    {
+                        <div>
+                            <label>@ad.Key Budget:</label>
+                            <input name="Campaign.AdBudgets[@ad.Key]" value="@ad.Value" type="number" min="0" step="any" />
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        
+    </form>
+
 </div>
 
 <!-- JavaScript to dynamically add ads -->
@@ -85,11 +97,8 @@
             adDiv.appendChild(adLabel);
             adDiv.appendChild(adInput);
 
-            // Find the submit button to insert before it
-            var submitButton = document.querySelector('button[type="submit"]');
-
-            // Insert the new ad div before the submit button
-            document.forms[0].insertBefore(adDiv, submitButton);
+            // Add the new inputs to the dedicated ads container
+            document.getElementById('adsContainer').appendChild(adDiv);
 
             // Clear input fields for the next ad
             document.getElementById('newAdName').value = '';

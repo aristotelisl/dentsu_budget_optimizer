@@ -8,11 +8,8 @@ body {
   padding: 0;
 }
 
-.container {
-  width: 80%;
-  margin: auto;
-  overflow: hidden;
-  padding: 20px;
+header {
+  padding-bottom: 30px;
 }
 
 h2 {
@@ -25,7 +22,6 @@ form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
   margin: auto;
 }
 
@@ -98,4 +94,38 @@ div {
   input[type="number"] {
       width: 100%;
   }
+}
+
+.container {
+  margin: auto; 
+  justify-content: center;
+  display: flex;
+}
+
+/* Style for the form container */
+.form {
+  display: flex;
+}
+
+/* Style for the left column */
+.form-left {
+  width: 350px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+/* Style for the right column */
+.form-right {
+  width: 350px;
+  border-left: 1px solid #ccc; /* Optional: for a visual separator */
+  padding-left: 20px; /* Optional: space between separator and content */
+}
+
+/* Style for the form elements */
+.form-left div, .form-right div {
+  margin-bottom: 10px;
+}
+
+button[type="button"] {
+  margin-top: 10px;
 }

@@ -48,7 +48,7 @@ namespace CampaignBudgetOptimizer.Pages
             if (Campaign != null)
             {
                 double optimalBudget = _budgetCalculator.CalculateOptimalNewAdBudget(Campaign);
-                ViewData["OptimalBudget"] = optimalBudget;
+                ViewData["OptimalBudget"] = Math.Round(optimalBudget, 2);
             }
             else
             {
